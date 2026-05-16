@@ -56,7 +56,7 @@ def get_pateint(patient_id:str=Path(...,description="ID Of the patient in the Da
 # Route with querry parameter
 
 @app.get('/sort')
-def sort_patients(sort_by:str= Query(...,description="Sort on the basis of height weight bmi "),order:str=Query(...,description='Sort in asc and desc order')):
+def sort_patients(sort_by:str= Query(...,description="Sort on the basis of height weight bmi "),order:str=Query('asc',description='Sort in asc and desc order')):
     valid_feilds=['height','weight','bmi']
     if sort_by not in valid_feilds:
         raise HTTPException(status_code=400,detail=f'Invalid feild selected from {valid_feilds}')
