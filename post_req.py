@@ -18,4 +18,16 @@ class Patient(BaseModel):
     def bmi(self):
         return round(self.weight/(self.height**2),2)
     
+    @computed_field
+    @property
+    def verdict(self):
+        if self.bmi<18:
+            return 'underweight'
+        elif self.bmi<25:
+            return 'normall'
+        elif self.bmi<30:
+            return 'normal'
+        else:
+            return 'obese'
+    
 
