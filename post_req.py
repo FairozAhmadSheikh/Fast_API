@@ -1,5 +1,5 @@
 from fastapi import FastAPI,Path,HTTPException
-from pydantic import BaseModel,Field
+from pydantic import BaseModel,Field,computed_field
 from typing import Annotated,Literal
 
 
@@ -12,6 +12,10 @@ class Patient(BaseModel):
     gender:Annotated[Literal['male','female','others'],Field(...,description="Gender of the patient")]
     height:Annotated[float,Field(...,description="Height of patient in meters")]
     weight:Annotated[float,Field(...,description="Weight of patient in kgs")]
-    
+
+    @computed_field
+    @property
+    def bmi(self):
+        return round(self.weight/(self.height**2),2)
     
 
