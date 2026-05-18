@@ -37,3 +37,9 @@ def load_data(data):
     with open('patients.json','r')as f:
         data=json.load(f)
         return data
+    
+# Save data function
+def save_data(data):
+    with open ('patients.json','w')as f:
+        data=json.dump(data,f)
+        return data
