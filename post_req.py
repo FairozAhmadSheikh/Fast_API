@@ -1,6 +1,7 @@
 from fastapi import FastAPI,Path,HTTPException
 from pydantic import BaseModel,Field,computed_field
 from typing import Annotated,Literal
+import json
 
 
 # Create a Patient Model 
@@ -31,3 +32,8 @@ class Patient(BaseModel):
             return 'obese'
     
 
+# Load data from json
+def load_data(data):
+    with open('patients.json','r')as f:
+        data=json.load(f)
+        return data
