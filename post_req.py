@@ -18,12 +18,12 @@ class Patient(BaseModel):
 
     @computed_field
     @property
-    def bmi(self):
+    def bmi(self)->float:
         return round(self.weight/(self.height**2),2)
     
     @computed_field
     @property
-    def verdict(self):
+    def verdict(self)->str:
         if self.bmi<18:
             return 'underweight'
         elif self.bmi<25:
@@ -46,6 +46,13 @@ def save_data(data):
         data=json.dump(data,f)
         return data
     
+
+@app.get('/')
+def welcome():
+    return "Made with 💖"
+
+
+
 # Route for post or saving the data 
 @app.post('/create')
 def create_patient(patient:Patient):
