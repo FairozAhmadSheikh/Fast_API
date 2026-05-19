@@ -46,16 +46,26 @@ def save_data(data):
         data=json.dump(data,f)
         return data
     
-
+# HomePage
 @app.get('/')
 def welcome():
-    return "Made with 💖"
+    return "If you see this Server is Running and is Made with 💖"
 
+
+# Displays all patients
 @app.get('/viewall')
 def view():
     data=load_data()
     return data
 
+# Diplay a Specific Patient 
+@app.get('/patient/{patient_id}')
+def view_specific(patient_id):
+    data=load_data()
+    if patient_id in data:
+        return data[patient_id]
+    else:
+        raise HTTPException(status_code=404,detail="Patient with provide ID is not found")
 
 # Route for post or saving the data 
 @app.post('/create')
