@@ -36,13 +36,13 @@ class Patient(BaseModel):
 
 # Load data from json
 def load_data():
-    with open('patients.json','r')as f:
+    with open('patient.json','r')as f:
         data=json.load(f)
         return data
     
 # Save data function
 def save_data(data):
-    with open ('patients.json','w')as f:
+    with open ('patient.json','w')as f:
         data=json.dump(data,f)
         return data
     
@@ -51,6 +51,10 @@ def save_data(data):
 def welcome():
     return "Made with 💖"
 
+@app.get('/viewall')
+def view():
+    data=load_data()
+    return data
 
 
 # Route for post or saving the data 
