@@ -89,7 +89,7 @@ class PatientUpdate(BaseModel):
     name:Annotated[Optional[str],Field(default=None)]
     age:Annotated[Optional[int],Field(default=None,gt=0)]
     city:Annotated[Optional[str],Field(default=None)]
-    gender:Annotated[Optional[Literal['Male','Female','Others']],Field(default=None)]
+    gender:Annotated[Optional[Literal['male','female','others']],Field(default=None)]
     height:Annotated[Optional[float],Field(default=None,gt=0)]
     weight:Annotated[Optional[float],Field(default=None,gt=0)]
 
@@ -113,12 +113,12 @@ def update(patient_id:str,update_patient:PatientUpdate):
 
     existing_patient_info['id']=patient_id
 
-    patient_pydantic_obj=PatientUpdate(**existing_patient_info)
+    patient_pydantic_obj=Patient(**existing_patient_info)
 
-    existing_patient_info=patient_pydantic_obj.model_dump(exclude='id')
+    existing_patient_info=patient_pydantic_obj.model_dump(exclude=['id'])
 
     data[patient_id]=existing_patient_info
 
-    return JSONResponse(status_code=200, =content={'message':"Patient Updated"})
+    return JSONResponse(status_code=200, content={'message':"Patient Updated"})
     
     
