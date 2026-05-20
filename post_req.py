@@ -92,4 +92,14 @@ class PatientUpdate(BaseModel):
     gender:Annotated[Optional[Literal['Male','Female','Others']],Field(default=None)]
     height:Annotated[Optional[float],Field(default=None,gt=0)]
     weight:Annotated[Optional[float],Field(default=None,gt=0)]
+
+@app.put('/update/{patient_id}')
+def update(patient_id:str,update_patient:PatientUpdate):
+    data=load_data()
+
+    # Incase of invalide id 
+    if patient_id not in data:
+        raise HTTPException(status_code=404,detail='No user with that id ')
     
+    # obtained existing info 
+    existing_info=data[patient_id]    
