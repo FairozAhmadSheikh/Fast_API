@@ -1,6 +1,6 @@
 from fastapi import FastAPI,Path,HTTPException
 from pydantic import BaseModel,Field,computed_field
-from typing import Annotated,Literal
+from typing import Annotated,Literal,Optional
 import json
 from fastapi.responses import JSONResponse
 
@@ -80,3 +80,16 @@ def create_patient(patient:Patient):
     save_data(data)
 
     return JSONResponse(status_code=200,content="Patient Created Successfully")
+
+# Lets now work on update route
+
+
+# Creating an pydantic schema wiith all optional feilds 
+class PatientUpdate(BaseModel):
+    name:Annotated[Optional[str],Field(default=None)]
+    age:Annotated[Optional[int],Field(default=None,gt=0)]
+    city:Annotated[Optional[str],Field(default=None)]
+    gender:Annotated[Optional[Literal['Male','Female','Others']],Field(default=None)]
+    height:Annotated[Optional[float],Field(default=None,gt=0)]
+    weight:Annotated[Optional[float],Field(default=None,gt=0)]
+    
