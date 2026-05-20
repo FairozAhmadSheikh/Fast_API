@@ -102,4 +102,23 @@ def update(patient_id:str,update_patient:PatientUpdate):
         raise HTTPException(status_code=404,detail='No user with that id ')
     
     # obtained existing info 
-    existing_info=data[patient_id]    
+    existing_patient_info=data[patient_id]   
+
+    # Updated info
+    updated_patient_info=update_patient.model_dump(exclude_unset=True)
+
+    # Placing updated key value pairs in the existing data
+    for key , value in updated_patient_info.items():
+        existing_patient_info[key]=value
+
+    existing_patient_info['id']=patient_id
+
+    patient_pydantic_obj=PatientUpdate(**existing_patient_info)
+
+    existing_patient_info=patient_pydantic_obj.model_dump(exclude='id')
+
+    data[patient_id]=existing_patient_info
+
+    return JSONResponse(status_code=200, =content={'message':"Patient Updated"})
+    
+    
