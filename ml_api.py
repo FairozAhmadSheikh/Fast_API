@@ -14,3 +14,6 @@ class Prediction(BaseModel):
     income_lpa:Annotated[str,Field(...,description="What is your income in Lakhs per annum",examples=[12.5,3.2])]
 
 
+@app.get('/')
+def home():
+    JSONResponse(status_code=200,content={"message":"This is a Insurance prediction API 💖"})
