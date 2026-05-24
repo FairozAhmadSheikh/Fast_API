@@ -81,7 +81,16 @@ class UserInput(BaseModel):
         
         return "High"
     
-
+    @computed_field
+    @property
+    def age_group(self):
+        if self.age<25:
+            return "Young"
+        elif self.age<30:
+            return "Adult"
+        elif self.age<60:
+            return "Middle_aged"
+        return "Senior"
     
 
 @app.get('/')
