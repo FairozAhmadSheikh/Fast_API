@@ -62,19 +62,19 @@ class UserInput(BaseModel):
       'Retail Manager',                'Chef',         'Electrician',
            'Carpenter',              'Doctor',      'Lab Technician',
         'Data Analyst',              'Lawyer',      'Content Writer'],Field(...,description="What is your Occupation",examples=['Businessman','Banker'])]
-    income_lpa:Annotated[str,Field(...,description="What is your income in Lakhs per annum",examples=[12.5,3.2])]
+    income_lpa:Annotated[float,Field(...,description="What is your income in Lakhs per annum",examples=[12.5,3.2])]
     smoker:Annotated[bool,Field(...,description="Does the user Smoke True or False Only")]
 
     city:Annotated[str,Field(...,description='Enter the city of user')]
     
     @computed_field
     @property
-    def bmi(self):
+    def bmi(self)->float:
         return round(self.weight/(self.height**2),2)
     
     @computed_field
     @property
-    def lifestyle_risk(self):
+    def lifestyle_risk(self)->str:
         if self.smoker and self.bmi >30:
             return "High"
         elif self.smoker or self.bmi>27:
@@ -84,7 +84,7 @@ class UserInput(BaseModel):
     
     @computed_field
     @property
-    def age_group(self):
+    def age_group(self)->str:
         if self.age<25:
             return "Young"
         elif self.age<30:
@@ -95,7 +95,7 @@ class UserInput(BaseModel):
     
     @computed_field
     @property
-    def city_tier(self):
+    def city_tier(self)->int:
         if self.city in tier_1_cities:
             return 1 
         elif self.city in tier_2_cities:
@@ -106,7 +106,7 @@ class UserInput(BaseModel):
 
 @app.get('/')
 def home():
-    JSONResponse(status_code=200,content={"message":"This is a Insurance prediction API 💖"})
+    return JSONResponse(status_code=200,content={"message":"This is a Insurance prediction API 💖"})
 
 @app.post('/predict')
 def predict_premium(data:UserInput):
