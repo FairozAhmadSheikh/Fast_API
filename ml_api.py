@@ -49,8 +49,8 @@ tier_2_cities = [
 
 class UserInput(BaseModel):
     age:Annotated[int,Field(...,description="Enter Age here ")]
-    weight:Annotated[float,Field(...,description='Weight in Kgs')]
-    height:Annotated[float,Field(...,description='Enter height in Meters')]
+    weight:Annotated[float,Field(...,gt=0,description='Weight in Kgs')]
+    height:Annotated[float,Field(...,gt=0,description='Enter height in Meters')]
     occupation:Annotated[Literal
     [     'Factory Worker',         'Businessman',       'Sales Manager',
               'Banker',   'Marketing Manager',     'Insurance Agent',
@@ -125,6 +125,6 @@ def predict_premium(data: UserInput):
     return JSONResponse(
         status_code=200,
         content={
-            "Prediction": float(prediction[0])
+            "Prediction":prediction.tolist()
         }
     )
