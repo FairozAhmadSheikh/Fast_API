@@ -70,17 +70,17 @@ class UserInput(BaseModel):
     @computed_field
     @property
     def bmi(self)->float:
-        return round(self.weight/(self.height**2),2)
+        return self.weight/(self.height**2)
     
     @computed_field
     @property
     def lifestyle_risk(self)->str:
-        if self.smoker and self.bmi >30:
+        if self.smoker and self.bmi > 30:
             return "High"
-        elif self.smoker or self.bmi>27:
+        elif self.smoker or self.bmi > 27:
             return "Medium"
-        
-        return "High"
+
+        return "Low"
     
     @computed_field
     @property
@@ -109,14 +109,22 @@ def home():
     return JSONResponse(status_code=200,content={"message":"This is a Insurance prediction API 💖"})
 
 @app.post('/predict')
-def predict_premium(data:UserInput):
-    input_data=pd.DataFrame([{
-        "bmi":data.bmi,
-        "age_group":data.age_group,
-        "lifestyle_risk":data.lifestyle_risk,
-        "city_tier":data.city_tier,
-        "income_lpa":data.income_lpa,
-        "occupation":data.occupation
+def predict_premium(data: UserInput):
+
+    input_data = pd.DataFrame([{
+        "bmi": data.bmi,
+        "age_group": data.age_group,
+        "lifestyle_risk": data.lifestyle_risk,
+        "city_tier": data.city_tier,
+        "income_lpa": data.income_lpa,
+        "occupation": data.occupation
     }])
-    prediction=model.predict(input_data)
-    return JSONResponse(status_code=200,content={"Prediction":prediction})
+
+    prediction = model.predict(input_data)
+
+    return JSONResponse(
+        status_code=200,
+        content={
+            "Prediction": float(prediction[0])
+        }
+    )
