@@ -9,7 +9,7 @@ app=FastAPI()
 
 # Load Model first
 with open('model.pkl','rb')as f:
-    pickle.load(f)
+    model=pickle.load(f)
 
 # Tier cities
 tier_1_cities = [
@@ -118,3 +118,5 @@ def predict_premium(data:UserInput):
         "income_lpa":data.income_lpa,
         "occupation":data.occupation
     }])
+    prediction=model.predict(input_data)
+    return JSONResponse(status_code=200,content={"Prediction":prediction})
