@@ -3,6 +3,7 @@ from pydantic import BaseModel,Field,computed_field
 from typing import Optional,Literal,Annotated
 import pickle
 from fastapi.responses import JSONResponse
+import pandas as pd
 
 app=FastAPI()
 
@@ -106,3 +107,14 @@ class UserInput(BaseModel):
 @app.get('/')
 def home():
     JSONResponse(status_code=200,content={"message":"This is a Insurance prediction API 💖"})
+
+@app.post('/predict')
+def predict_premium(data:UserInput):
+    input_data=pd.DataFrame([{
+        "bmi":data.bmi,
+        "age_group":data.age_group,
+        "lifestyle_risk":data.lifestyle_risk,
+        "city_tier":data.city_tier,
+        "income_lpa":data.income_lpa,
+        "occupation":data.occupation
+    }])
